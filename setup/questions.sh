@@ -37,16 +37,16 @@ if [ -z "${PRIMARY_HOSTNAME:-}" ]; then
 		# This is the first run. Ask the user for his email address so we can
 		# provide the best default for the box's hostname.
 		input_box "Your Email Address" \
-"What email address are you setting this box up to manage?
-\n\nThe part after the @-sign must be a domain name or subdomain
-that you control. You can add other email addresses to this
-box later (including email addresses on other domain names
-or subdomains you control).
-\n\nWe've guessed an email address. Backspace it and type in what
-you really want.
-\n\nEmail Address:" \
-			"me@$DEFAULT_DOMAIN_GUESS" \
-			EMAIL_ADDR
+    "What email address are you setting this box up to manage?
+    \n\nThe part after the @-sign must be a domain name or subdomain
+    that you control. You can add other email addresses to this
+    box later (including email addresses on other domain names
+    or subdomains you control).
+    \n\nWe've guessed an email address. Backspace it and type in what
+    you really want.
+    \n\nEmail Address:" \
+    "me@$DEFAULT_DOMAIN_GUESS" \
+    EMAIL_ADDR
 
 		if [ -z "$EMAIL_ADDR" ]; then
 			# user hit ESC/cancel
@@ -70,11 +70,11 @@ you really want.
 	fi
 
 	input_box "Hostname" \
-"This box needs a name, called a 'hostname'. The name will form a part of the box's web address.
-\n\nWe recommend that the name the domain in your email
-address, so we're suggesting $DEFAULT_PRIMARY_HOSTNAME.
-\n\nYou can change it, but we recommend you don't.
-\n\nHostname:" \
+  "This box needs a name, called a 'hostname'. The name will form a part of the box's web address.
+  \n\nWe recommend that the name the domain in your email
+  address, so we're suggesting $DEFAULT_PRIMARY_HOSTNAME.
+  \n\nYou can change it, but we recommend you don't.
+  \n\nHostname:" \
 		$DEFAULT_PRIMARY_HOSTNAME \
 		PRIMARY_HOSTNAME
 
