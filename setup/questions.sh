@@ -214,4 +214,4 @@ fi
 if [ -f /usr/bin/git ] && [ -d .git ]; then
 	echo "Mail-in-a-Box Version: " $(git describe)
 fi
-echo
+
