@@ -86,7 +86,7 @@ address, so we're suggesting $DEFAULT_PRIMARY_HOSTNAME.
 	DEFAULT_WAGTAIL_PROJ=$PRIMARY_HOSTNAME
 
 
-WAGTAIL_LOC=/wagtail
+WAGTAIL_LOC=$"/wagtail"
 
 # If the machine is behind a NAT, inside a VM, etc., it may not know
 # its IP address on the public network / the Internet. Ask the Internet
