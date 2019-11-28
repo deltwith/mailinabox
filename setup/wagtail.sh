@@ -22,7 +22,7 @@ cookiecutter https://github.com/pydanny/cookiecutter-django
 
 WAGTAIL_PROJ=$(ls -td -- */ | head -n 1)
 cd $WAGTAIL_PROJ
-hide_output pip install -r requirements/production.txt
+hide_output pip3 install -r requirements/production.txt
 
 
 cat > /etc/systemd/system/gunicorn.socket << EOF;
