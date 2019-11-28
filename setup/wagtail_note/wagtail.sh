@@ -11,10 +11,30 @@ source setup/functions.sh # load our functions
 
 # Install packages.
 echo "Installing Wagtail, gunicorn, and postgresql..."
+apt_install s	libtiff5-dev libjpeg8-dev libopenjp2-7-dev zlib1g-dev \
+  libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk \
+  libharfbuzz-dev libfribidi-dev \
+  libpq-dev postgresql postgresql-contrib gunicorn
+
+apt_install psycopg2-binary
+
+
+
+postgres psql << EOF
+# This needs to be in a psql script
+CREATE DATABASE $WAGTAIL_PROJ;
+CREATE USER wagtail_usr WITH PASSWORD 'mif4fq3vq9yu675igg';
+ALTER ROLE wagtail_usr SET client_encoding TO 'utf8';
+ALTER ROLE wagtail_usr SET default_transaction_isolation TO 'read committed';
+ALTER ROLE wagtail_usr SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE myproject TO wagtail_usr;
+EOF
+
+
 
 RETURN_TO=$(pwd)
 mkdir "$WAGTAIL_LOC"
-cd "$WAGTAIL_LOC"
+cd "$WAGTAIL_LOC" || exit
 
 
 hide_output pip3 install cookiecutter
@@ -24,6 +44,49 @@ WAGTAIL_PROJ=$(ls -td -- */ | head -n 1)
 cd $WAGTAIL_PROJ
 hide_output pip install -r requirements/production.txt
 
+:'
+hide_output pip3 install gunicorn
+hide_output pip3 install psycopg2-binary
+hide_output pip install -r requirements.txt
+
+hide_output wagtail start "$WAGTAIL_PROJ"
+
+
+
+# add allowed hosts
+# ALLOWED_HOSTS = ['$PRIMARY_HOSTNAME', '203.0.113.5']
+
+tools/editconf.py
+~./myprojectdir/myproject/settings.py
+
+#  DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#          'NAME': '$WAGTAIL_PROJ',
+#          'USER': 'wagtail_usr',
+#          'PASSWORD': 'mif4fq3vq9yu675igg',
+#          'HOST': 'localhost',
+#          'PORT': '',
+#      }
+#  }
+
+  . . .
+
+  STATIC_URL = '/static/'
+  STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+
+
+
+./manage.py makemigrations
+./manage.py migrate
+./manage.py createsuperuser # Need to add arguments here
+./manage.py collectstatic
+#./manage.py runserver 0.0.0.0:8000
+
+# This command will now work to host
+#gunicorn $WAGTAIL_PROJ.wsgi:application --bind 0.0.0.0:8000
+'
 
 cat > /etc/systemd/system/gunicorn.socket << EOF;
 [Unit]
