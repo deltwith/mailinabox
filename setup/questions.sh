@@ -18,9 +18,10 @@ if [ -z "${NONINTERACTIVE:-}" ]; then
 	hide_output pip3 install "email_validator>=1.0.0" || exit 1
 
 	message_box "Mail-in-a-Box Installation" \
-		"Hello and thanks for deploying a Mail-in-a-Box!
+		"Hello and thanks for deploying a Mail-in-a-Box plus Wagtail !
 		\n\nI'm going to ask you a few questions.
 		\n\nTo change your answers later, just run 'sudo mailinabox' from the command line.
+		\n\nActually, don't do that for Wagtail...
 		\n\nNOTE: You should only install this on a brand new Ubuntu installation 100% dedicated to Mail-in-a-Box. Mail-in-a-Box will, for example, remove apache2."
 fi
 
@@ -65,12 +66,12 @@ you really want.
 
 		# Take the part after the @-sign as the user's domain name, and add
 		# 'box.' to the beginning to create a default hostname for this machine.
-		DEFAULT_PRIMARY_HOSTNAME=box.$(echo $EMAIL_ADDR | sed 's/.*@//')
+		DEFAULT_PRIMARY_HOSTNAME=$(echo $EMAIL_ADDR | sed 's/.*@//')
 	fi
 
 	input_box "Hostname" \
 "This box needs a name, called a 'hostname'. The name will form a part of the box's web address.
-\n\nWe recommend that the name be a subdomain of the domain in your email
+\n\nWe recommend that the name the domain in your email
 address, so we're suggesting $DEFAULT_PRIMARY_HOSTNAME.
 \n\nYou can change it, but we recommend you don't.
 \n\nHostname:" \
@@ -81,7 +82,11 @@ address, so we're suggesting $DEFAULT_PRIMARY_HOSTNAME.
 		# user hit ESC/cancel
 		exit
 	fi
-fi
+
+	DEFAULT_WAGTAIL_PROJ=$PRIMARY_HOSTNAME
+
+
+WAGTAIL_LOC=/wagtail
 
 # If the machine is behind a NAT, inside a VM, etc., it may not know
 # its IP address on the public network / the Internet. Ask the Internet

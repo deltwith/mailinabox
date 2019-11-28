@@ -60,7 +60,7 @@ then
 
 	# Allocate and activate the swap file. Allocate in 1KB chuncks
 	# doing it in one go, could fail on low memory systems
-	dd if=/dev/zero of=/swapfile bs=1024 count=$[1024*1024] status=none
+	dd if=/dev/zero of=/swapfile bs=1024 count=$[2*1024*1024] status=none
 	if [ -e /swapfile ]; then
 		chmod 600 /swapfile
 		hide_output mkswap /swapfile
@@ -127,7 +127,8 @@ apt_get_quiet autoremove
 # * bc: allows us to do math to compute sane defaults
 
 echo Installing system packages...
-apt_install python3 python3-dev python3-pip \
+apt_install python3.7
+apt_install python3-dev python3-pip python3-setuptools\
 	netcat-openbsd wget curl git sudo coreutils bc \
 	haveged pollinate unzip \
 	unattended-upgrades cron ntp fail2ban rsyslog
