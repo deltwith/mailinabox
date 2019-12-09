@@ -5,6 +5,7 @@
 
 source /etc/mailinabox.conf # get global vars
 source setup/functions.sh # load our functions
+source /etc/mailinabox.conf # load global vars
 
 # Install packages and basic configuration
 # ----------------------------------------
@@ -12,18 +13,53 @@ source setup/functions.sh # load our functions
 # Install packages.
 echo "Installing Wagtail, gunicorn, and postgresql..."
 
+hide_output pip3 install cookiecutter
+
 RETURN_TO=$(pwd)
-mkdir "$WAGTAIL_LOC"
+mkdir "$WAGTAIL_LOC" || echo ''
 cd "$WAGTAIL_LOC"
 
-
-hide_output pip3 install cookiecutter
-cookiecutter https://github.com/pydanny/cookiecutter-django
-
-WAGTAIL_PROJ=$(ls -td -- */ | head -n 1)
+#WAGTAIL_PROJ=$(ls -td -- */ | head -n 1)
 cd $WAGTAIL_PROJ
-hide_output pip3 install -r requirements/production.txt
 
+mkdir ~/.cookiecutters/cookiecutter-django/ || echo ''
+git clone https://github.com/pydanny/cookiecutter-django ~/.cookiecutters/cookiecutter-django/ || echo ''
+
+
+cat > ~/.cookiecutters/cookiecutter-django/cookiecutter.json << EOF;
+{
+	"project_name": "$WAGTAIL_PROJ",
+	"project_slug": "$WAGTAIL_PROJ",
+	"description": "A project made with mailinabox plus wagtail",
+	"author_name": "${EMAIL_ADDR%%@*}",
+	"domain_name": "$PRIMARY_HOSTNAME",
+	"email": "$EMAIL_ADDR",
+	"version": "0.1.0",
+	"open_source_license": "GPLv3",
+	"timezone": "UTC",
+	"windows": "n",
+	"use_pycharm": "n",
+	"use_docker": "n",
+	"postgresql_version": "11.3",
+	"js_task_runner": "Gulp",
+	"cloud_provider": "None",
+	"custom_bootstrap_compilation": "y",
+	"use_compressor": "y",
+	"use_celery": "n",
+	"use_mailhog": "n",
+	"use_sentry": "n",
+	"use_whitenoise": "y",
+	"use_heroku": "n",
+	"use_travisci": "n",
+	"keep_local_envs_in_vcs": "y",
+	"debug": "n"
+}
+EOF
+
+#cookiecutter https://github.com/pydanny/cookiecutter-django
+cookiecutter ~/.cookiecutters/cookiecutter-django/
+
+hide_output pip3 install -r requirements/production.txt
 
 cat > /etc/systemd/system/gunicorn.socket << EOF;
 [Unit]
