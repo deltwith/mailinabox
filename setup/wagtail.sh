@@ -13,7 +13,9 @@ source /etc/mailinabox.conf # load global vars
 # Install packages.
 echo "Installing Wagtail, gunicorn, and postgresql..."
 
-hide_output pip3 install cookiecutter build-essential postgresql-server-dev-all
+hide_output pip3 install cookiecutter
+apt_install build-essential
+apt_install postgresql-server-dev-all
 
 RETURN_TO=$(pwd)
 mkdir "$WAGTAIL_LOC" || echo ''
@@ -59,7 +61,7 @@ EOF
 
 #cookiecutter https://github.com/pydanny/cookiecutter-django
 cookiecutter ~/.cookiecutters/cookiecutter-django/
-cd $WAGTAIL_PROJ
+
 hide_output pip3 install -r requirements/production.txt
 
 cat > /etc/systemd/system/gunicorn.socket << EOF;
