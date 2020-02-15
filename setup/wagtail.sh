@@ -46,6 +46,7 @@ cat > ~/.cookiecutters/cookiecutter-django/cookiecutter.json << EOF;
 	"postgresql_version": "11.3",
 	"js_task_runner": "Gulp",
 	"cloud_provider": "None",
+	"use_drf": "n",
 	"custom_bootstrap_compilation": "y",
 	"use_compressor": "y",
 	"use_celery": "n",
@@ -53,6 +54,7 @@ cat > ~/.cookiecutters/cookiecutter-django/cookiecutter.json << EOF;
 	"use_sentry": "n",
 	"use_whitenoise": "y",
 	"use_heroku": "n",
+	"ci_tool": "None"
 	"use_travisci": "n",
 	"keep_local_envs_in_vcs": "y",
 	"debug": "n"
