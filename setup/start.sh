@@ -110,7 +110,9 @@ source setup/dkim.sh
 source setup/spamassassin.sh
 source setup/web.sh
 ( set -o posix ; set ) > ~/debug_env_var.txt
-source setup/wagtail.sh
+if [ ! -d $WAGTAIL_LOC/$WAGTAIL_PROJ/ ]; then
+  source setup/wagtail.sh
+fi
 source setup/webmail.sh
 source setup/nextcloud.sh
 source setup/zpush.sh

@@ -24,10 +24,10 @@ cd "$WAGTAIL_LOC"
 #WAGTAIL_PROJ=$(ls -td -- */ | head -n 1)
 #mkdir "$WAGTAIL_PROJ" || echo ''
 #
-if [ ! -f ~/.cookiecutters/ ]; then
+if [ ! -d ~/.cookiecutters/ ]; then
   mkdir ~/.cookiecutters/ || echo ''
 fi
-if [ ! -f ~/.cookiecutters/cookiecutter-django/ ]; then
+if [ ! -d ~/.cookiecutters/cookiecutter-django/ ]; then
   mkdir ~/.cookiecutters/cookiecutter-django/ || echo ''
 fi
 
@@ -105,8 +105,8 @@ EOF
 
 systemctl start gunicorn
 systemctl enable gunicorn
-restart_service gunicorn.socket
-systemctl restart nginx
+#restart_service gunicorn.socket
+#systemctl restart nginx
 
 cd "$RETURN_TO" || exit
 
