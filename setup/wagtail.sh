@@ -24,9 +24,13 @@ cd "$WAGTAIL_LOC"
 #WAGTAIL_PROJ=$(ls -td -- */ | head -n 1)
 #mkdir "$WAGTAIL_PROJ" || echo ''
 #
+if [ ! -f ~/.cookiecutters/ ]; then
+  mkdir ~/.cookiecutters/ || echo ''
+fi
+if [ ! -f ~/.cookiecutters/cookiecutter-django/ ]; then
+  mkdir ~/.cookiecutters/cookiecutter-django/ || echo ''
+fi
 
-mkdir ~/.cookiecutters/ || echo ''
-mkdir ~/.cookiecutters/cookiecutter-django/ || echo ''
 git clone https://github.com/pydanny/cookiecutter-django ~/.cookiecutters/cookiecutter-django/ || echo ''
 
 
