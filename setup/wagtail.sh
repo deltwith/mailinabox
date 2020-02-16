@@ -25,6 +25,7 @@ cd "$WAGTAIL_LOC"
 #mkdir "$WAGTAIL_PROJ" || echo ''
 #
 
+mkdir ~/.cookiecutters/ || echo ''
 mkdir ~/.cookiecutters/cookiecutter-django/ || echo ''
 git clone https://github.com/pydanny/cookiecutter-django ~/.cookiecutters/cookiecutter-django/ || echo ''
 
@@ -55,7 +56,6 @@ cat > ~/.cookiecutters/cookiecutter-django/cookiecutter.json << EOF;
 	"use_whitenoise": "y",
 	"use_heroku": "n",
 	"ci_tool": "None"
-	"use_travisci": "n",
 	"keep_local_envs_in_vcs": "y",
 	"debug": "n"
 }
@@ -64,7 +64,7 @@ EOF
 #cookiecutter https://github.com/pydanny/cookiecutter-django
 cookiecutter ~/.cookiecutters/cookiecutter-django/
 
-hide_output pip3 install -r requirements/production.txt
+hide_output pip3 install -r $WAGTAIL_PROJ/requirements/production.txt
 
 cat > /etc/systemd/system/gunicorn.socket << EOF;
 [Unit]
