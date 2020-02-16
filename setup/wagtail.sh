@@ -55,7 +55,7 @@ cat > ~/.cookiecutters/cookiecutter-django/cookiecutter.json << EOF;
 	"use_sentry": "n",
 	"use_whitenoise": "y",
 	"use_heroku": "n",
-	"ci_tool": "None"
+	"ci_tool": "None",
 	"keep_local_envs_in_vcs": "y",
 	"debug": "n"
 }
