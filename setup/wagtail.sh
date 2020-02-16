@@ -98,25 +98,7 @@ ExecStart=/usr/local/bin/gunicorn \
 WantedBy=multi-user.target
 EOF
 
-:'
-# This is contained in the web setup
-cat > /etc/nginx/sites-available/huetest << EOF;
-server {
-    listen 80;
-    localhost %PRIMARY_HOSTNAME;
 
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location /root/huetest/huetest/static/ {
-        root /root/huetest;
-    }
-
-    location / {
-        include proxy_params;
-        proxy_pass http://unix:/run/gunicorn.sock;
-    }
-}
-EOF
-'
 systemctl start gunicorn
 systemctl enable gunicorn
 restart_service gunicorn.socket
