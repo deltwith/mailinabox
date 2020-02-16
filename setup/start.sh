@@ -29,6 +29,7 @@ export NCURSES_NO_UTF8_ACS=1
 
 # Recall the last settings used if we're running this a second time.
 if [ -f /etc/mailinabox.conf ]; then
+  source /etc/mailinabox.conf
 	# Run any system migrations before proceeding. Since this is a second run,
 	# we assume we have Python already installed.
 	setup/migrate.py --migrate || exit 1
